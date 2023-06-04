@@ -8,7 +8,7 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode("utf-8"),
 )
 
-for i in range(1000):
+while True:
     v = str(uuid.uuid4())
     print(v)
     producer.send("foobar", {"id": v, "time": str(time.time())})
