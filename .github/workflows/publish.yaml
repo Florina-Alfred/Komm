@@ -26,3 +26,9 @@ jobs:
                  docker push ghcr.io/florina-alfred/komm-pro:latest
                  docker tag ghcr.io/florina-alfred/komm-pro:latest  ghcr.io/florina-alfred/komm-pro:${{ steps.vars.outputs.sha_short }}
                  docker push ghcr.io/florina-alfred/komm-pro:${{ steps.vars.outputs.sha_short }}
+        - name: Build Kafka-Consumer image
+          run: |
+                 docker build ./consumer/ --tag ghcr.io/florina-alfred/komm-con:latest
+                 docker push ghcr.io/florina-alfred/komm-con:latest
+                 docker tag ghcr.io/florina-alfred/komm-con:latest  ghcr.io/florina-alfred/komm-con:${{ steps.vars.outputs.sha_short }}
+                 docker push ghcr.io/florina-alfred/komm-con:${{ steps.vars.outputs.sha_short }}
