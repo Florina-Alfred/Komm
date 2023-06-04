@@ -17,7 +17,7 @@ jobs:
               registry: ghcr.io
               username: ${{ github.actor }}
               password: ${{ secrets.TOKEN }}
-        - name: Set outputs
+        - name: Set variable as output
           id: vars
           run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
         - name: Build Kafka-Producer image
