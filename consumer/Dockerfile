@@ -3,8 +3,8 @@ FROM python:3.8-slim-buster
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
-RUN apt update && apt install ffmpeg libsm6 libxext6 -y && pip install kafka-python
-#RUN pip3 install -r requirements.txt
+RUN apt update && apt install ffmpeg libsm6 libxext6 -y
+RUN pip3 install -r requirements.txt
 
 COPY . .
 
