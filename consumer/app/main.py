@@ -17,6 +17,6 @@ print("_" * 20)
 
 print(next(consumer), "_" * 20)
 for msg in consumer:
-    print(msg.value, json(msg))
+    print(msg.value)
 
 # print(next(consumer))
