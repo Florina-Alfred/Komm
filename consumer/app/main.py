@@ -1,6 +1,10 @@
+from fastapi import FastAPI
+import uvicorn
 from kafka import KafkaConsumer, TopicPartition
 import json
 import os
+
+app = FastAPI()
 
 # load env variables
 BROKER_SERVER = os.getenv("BROKER_SERVER", "localhost:9092")
@@ -16,13 +20,10 @@ consumer = KafkaConsumer(
     group_id=None,
 )
 
-# consumer.assign(TopicPartition(topic="foobar", partition=0))
-# consumer.seek_to_end()
-# consumer.poll()
-print("_" * 20)
 
-# print(next(consumer), "_" * 20)
-for msg in consumer:
-    print(msg.value)
+@app.get("/")
+async def root():
+    return next(consumer).value
 
-# print(next(consumer))
+
+uvicorn.run(app, host="0.0.0.0", port=8000)
