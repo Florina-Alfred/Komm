@@ -1,2 +1,2 @@
 kafka-python
-opencv2-python
+opencv-python
