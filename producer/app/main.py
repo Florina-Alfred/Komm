@@ -15,7 +15,7 @@ producer = KafkaProducer(
     # value_serializer=lambda v: json.dumps(v).encode("utf-8"),
 )
 
-vid = cv2.VideoCapture(2)
+vid = cv2.VideoCapture(0)
 while True:
     ret, frame = vid.read()
     cv2.imshow("frame", frame)
