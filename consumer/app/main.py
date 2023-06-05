@@ -10,18 +10,21 @@ app = FastAPI()
 BROKER_SERVER = os.getenv("BROKER_SERVER", "localhost:9092")
 KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "foobar")
 
+consumer = KafkaConsumer(
+    KAFKA_TOPIC,
+    bootstrap_servers=BROKER_SERVER,
+    # bootstrap_servers="kafka.default.svc.cluster.local",
+    auto_offset_reset="latest",
+    # consumer_timeout_ms=5000,
+    value_deserializer=json.loads,
+    group_id=None,
+)
+
 
 @app.get("/")
 async def root():
-    consumer = KafkaConsumer(
-        KAFKA_TOPIC,
-        bootstrap_servers=BROKER_SERVER,
-        # bootstrap_servers="kafka.default.svc.cluster.local",
-        auto_offset_reset="latest",
-        # consumer_timeout_ms=5000,
-        value_deserializer=json.loads,
-        group_id=None,
-    )
+    consumer.poll()
+    # consumer.seek_to_end(TopicPartition(KAFKA_TOPIC, 0))
     return next(consumer).value
 
 
