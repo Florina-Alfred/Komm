@@ -8,6 +8,7 @@ producer = KafkaProducer(
     value_serializer=lambda v: json.dumps(v).encode("utf-8"),
 )
 
+
 while True:
     v = str(uuid.uuid4())
     print(v)
