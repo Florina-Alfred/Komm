@@ -14,7 +14,11 @@ producer = KafkaProducer(
     # bootstrap_servers=["kafka-0.kafka-headless.default.svc.cluster.local:9092"],
     # value_serializer=lambda v: json.dumps(v).encode("utf-8"),
 )
+
+print(f"Starting a K-Pro on {KAFKA_TOPIC} @ {BROKER_SERVER}")
+
 for i in range(10):
+    print(f"Testing camera {i} to start K-Pro with")
     try:
         vid = cv2.VideoCapture(i)
         print(f"Choose the camera {i}")

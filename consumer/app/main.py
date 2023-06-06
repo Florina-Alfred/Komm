@@ -14,6 +14,8 @@ app = FastAPI()
 BROKER_SERVER = os.getenv("BROKER_SERVER", "localhost:9092")
 KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "webcam")
 
+print(f"Starting a K-Con on {KAFKA_TOPIC} @ {BROKER_SERVER}")
+
 
 def gen_frame():
     consumer = KafkaConsumer(
