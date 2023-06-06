@@ -17,13 +17,17 @@ producer = KafkaProducer(
 for i in range(10):
     try:
         vid = cv2.VideoCapture(i)
+        print(f"Choose the camera {i}")
+        now = time.time()
         while True:
             ret, frame = vid.read()
             # cv2.imshow("frame", frame)
 
             ret, buffer = cv2.imencode(".jpg", frame)
             producer.send("webcam", buffer.tobytes())
-            print(time.time())
+            if time.time() - now >= 5:
+                now = time.time()
+                print(now)
 
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 break

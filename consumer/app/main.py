@@ -6,6 +6,7 @@ import json
 import os
 import cv2
 import numpy as np
+import time
 
 app = FastAPI()
 
@@ -29,9 +30,14 @@ def gen_frame():
     # consumer.seek_to_end()
     # consumer.seek_to_end(TopicPartition(KAFKA_TOPIC, 0))
 
+    now = time.time()
     for msg in consumer:
+        if time.time() - now >= 5:
+            now = time.time()
+            print(now)
         nparr = np.frombuffer(msg.value, np.uint8)
         frame = nparr.tobytes()
+
         yield (b"--frame\r\n" b"Content-Type: image\r\n\r\n" + frame + b"\r\n")
 
 
