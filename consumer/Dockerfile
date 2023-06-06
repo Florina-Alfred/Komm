@@ -1,9 +1,10 @@
-FROM python:3.8-slim-buster
+FROM python:3.9.13-slim-buster
 
 WORKDIR /app
+RUN DEBIAN_FRONTEND=noninteractive
 
+RUN apt update && apt install python3-pip ffmpeg libsm6 libxext6 -y
 COPY requirements.txt requirements.txt
-RUN apt update && apt install ffmpeg libsm6 libxext6 -y
 RUN pip3 install -r requirements.txt
 
 COPY . .
