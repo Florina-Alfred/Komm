@@ -14,8 +14,6 @@ app = FastAPI()
 BROKER_SERVER = os.getenv("BROKER_SERVER", "localhost:9092")
 KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "webcam")
 
-print(f"Starting a K-Con on {KAFKA_TOPIC} @ {BROKER_SERVER}")
-
 
 def gen_frame():
     consumer = KafkaConsumer(
@@ -50,4 +48,6 @@ async def root():
     )
 
 
-uvicorn.run(app, host="0.0.0.0", port=8000)
+if __name__ == "__main__":
+    print(f"Starting a K-Con on {KAFKA_TOPIC} @ {BROKER_SERVER}")
+    uvicorn.run(app, host="0.0.0.0", port=8000)

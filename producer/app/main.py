@@ -28,7 +28,7 @@ for i in range(10):
             # cv2.imshow("frame", frame)
 
             ret, buffer = cv2.imencode(".jpg", frame)
-            producer.send("webcam", buffer.tobytes())
+            producer.send(KAFKA_TOPIC, buffer.tobytes())
             if time.time() - now >= 5:
                 now = time.time()
                 print(now)
