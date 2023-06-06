@@ -18,7 +18,7 @@ producer = KafkaProducer(
 vid = cv2.VideoCapture(0)
 while True:
     ret, frame = vid.read()
-    cv2.imshow("frame", frame)
+    # cv2.imshow("frame", frame)
 
     ret, buffer = cv2.imencode(".jpg", frame)
     producer.send("webcam", buffer.tobytes())
