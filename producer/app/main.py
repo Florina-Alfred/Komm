@@ -14,17 +14,21 @@ producer = KafkaProducer(
     # bootstrap_servers=["kafka-0.kafka-headless.default.svc.cluster.local:9092"],
     # value_serializer=lambda v: json.dumps(v).encode("utf-8"),
 )
+for i in range(10):
+    try:
+        vid = cv2.VideoCapture(i)
+        while True:
+            ret, frame = vid.read()
+            # cv2.imshow("frame", frame)
 
-vid = cv2.VideoCapture(0)
-while True:
-    ret, frame = vid.read()
-    # cv2.imshow("frame", frame)
+            ret, buffer = cv2.imencode(".jpg", frame)
+            producer.send("webcam", buffer.tobytes())
+            print(time.time())
 
-    ret, buffer = cv2.imencode(".jpg", frame)
-    producer.send("webcam", buffer.tobytes())
-
-    if cv2.waitKey(1) & 0xFF == ord("q"):
-        break
+            if cv2.waitKey(1) & 0xFF == ord("q"):
+                break
+    except:
+        continue
 
 vid.release()
 cv2.destroyAllWindows()
