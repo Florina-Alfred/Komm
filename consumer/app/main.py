@@ -19,7 +19,7 @@ def gen_frame():
     consumer = KafkaConsumer(
         KAFKA_TOPIC,
         bootstrap_servers=BROKER_SERVER,
-        # bootstrap_servers="kafka.default.svc.cluster.local",
+        # bootstrap_servers="kafka-stack.default.svc.cluster.local",
         auto_offset_reset="latest",
         # consumer_timeout_ms=5000,
         # value_deserializer=json.loads,

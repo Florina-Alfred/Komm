@@ -11,7 +11,7 @@ KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "foobar")
 
 producer = KafkaProducer(
     bootstrap_servers=[BROKER_SERVER],
-    # bootstrap_servers=["kafka-0.kafka-headless.default.svc.cluster.local:9092"],
+    # bootstrap_servers=["kafka-stack-0.kafka-stack-headless.default.svc.cluster.local:9092"],
     # value_serializer=lambda v: json.dumps(v).encode("utf-8"),
 )
 
