@@ -27,14 +27,14 @@ for i in range(10):
             ret, frame = vid.read()
             # cv2.imshow("frame", frame)
 
-            ret, buffer = cv2.imencode(".jpg", frame)
+            ret, buffer = cv2.imencode(".png", frame)
             producer.send(KAFKA_TOPIC, buffer.tobytes())
             if time.time() - now >= 5:
                 now = time.time()
                 print(now)
 
-            if cv2.waitKey(1) & 0xFF == ord("q"):
-                break
+            #if cv2.waitKey(1) & 0xFF == ord("q"):
+            #    break
     except:
         continue
 

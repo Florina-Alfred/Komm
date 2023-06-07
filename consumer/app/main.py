@@ -24,7 +24,7 @@ def gen_frame():
         # consumer_timeout_ms=5000,
         # value_deserializer=json.loads,
         enable_auto_commit=False,
-        group_id=None,
+        # group_id=None,
     )
     # consumer.poll()
     # consumer.seek_to_end()
@@ -38,13 +38,13 @@ def gen_frame():
         nparr = np.frombuffer(msg.value, np.uint8)
         frame = nparr.tobytes()
 
-        yield (b"--frame\r\n" b"Content-Type: image\r\n\r\n" + frame + b"\r\n")
+        yield (b'--frame\r\n' b'Content-Type: image\r\n\r\n' + frame + b'\r\n')
 
 
 @app.get("/")
 async def root():
     return StreamingResponse(
-        gen_frame(), media_type="multipart/x-mixed-replace; boundary=frame"
+        gen_frame(), media_type='multipart/x-mixed-replace; boundary=frame'
     )
 
 
