@@ -8,12 +8,13 @@ import cv2
 # load env variables
 BROKER_SERVER = os.getenv("BROKER_SERVER", "localhost:9092")
 KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "foobar")
+KAFKA_COMPRESSION = os.getenv("KAFKA_COMPRESSION", "gzip")
 
 producer = KafkaProducer(
     bootstrap_servers=[BROKER_SERVER],
     # bootstrap_servers=["kafka-stack-0.kafka-stack-headless.default.svc.cluster.local:9092"],
     # value_serializer=lambda v: json.dumps(v).encode("utf-8"),
-    compression_type="gzip",
+    compression_type=KAFKA_COMPRESSION,
 )
 
 print(f"Starting a K-Pro on {KAFKA_TOPIC} @ {BROKER_SERVER}")
@@ -28,7 +29,8 @@ for i in range(10):
             ret, frame = vid.read()
             # cv2.imshow("frame", frame)
 
-            ret, buffer = cv2.imencode(".jpg", frame[::3,::3])
+            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 60]
+            ret, buffer = cv2.imencode(".jpg", frame[::3,::3], encode_param)
             producer.send(KAFKA_TOPIC, buffer.tobytes())
             if time.time() - now >= 5:
                 now = time.time()
