@@ -9,6 +9,9 @@ import cv2
 BROKER_SERVER = os.getenv("BROKER_SERVER", "localhost:9092")
 KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "foobar")
 KAFKA_COMPRESSION = os.getenv("KAFKA_COMPRESSION", "gzip")
+KAFKA_COMPRESSION = os.getenv("KAFKA_COMPRESSION", "gzip")
+CV2_ENCODE_SCALE = int(os.getenv("CV2_IMAGE_SCALE", "75"))
+CV2_IMAGE_SCALE = int(os.getenv("CV2_IMAGE_SCALE", "3"))
 
 producer = KafkaProducer(
     bootstrap_servers=[BROKER_SERVER],
@@ -29,8 +32,8 @@ for i in range(10):
             ret, frame = vid.read()
             # cv2.imshow("frame", frame)
 
-            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 60]
-            ret, buffer = cv2.imencode(".jpg", frame[::3,::3], encode_param)
+            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), CV2_ENCODE_SCALE]
+            ret, buffer = cv2.imencode(".jpeg", frame[::CV2_IMAGE_SCALE,::CV2_IMAGE_SCALE], encode_param)
             producer.send(KAFKA_TOPIC, buffer.tobytes())
             if time.time() - now >= 5:
                 now = time.time()

@@ -1,3 +1,4 @@
 kafka-python
 opencv-python
 urllib3
+lz4
