@@ -9,7 +9,6 @@ import cv2
 BROKER_SERVER = os.getenv("BROKER_SERVER", "localhost:9092")
 KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "foobar")
 KAFKA_COMPRESSION = os.getenv("KAFKA_COMPRESSION", "gzip")
-KAFKA_COMPRESSION = os.getenv("KAFKA_COMPRESSION", "gzip")
 CV2_ENCODE_SCALE = int(os.getenv("CV2_ENCODE_SCALE", "75"))
 CV2_IMAGE_SCALE = int(os.getenv("CV2_IMAGE_SCALE", "3"))
 
