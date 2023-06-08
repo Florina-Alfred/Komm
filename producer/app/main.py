@@ -13,6 +13,7 @@ producer = KafkaProducer(
     bootstrap_servers=[BROKER_SERVER],
     # bootstrap_servers=["kafka-stack-0.kafka-stack-headless.default.svc.cluster.local:9092"],
     # value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+    compression_type="gzip",
 )
 
 print(f"Starting a K-Pro on {KAFKA_TOPIC} @ {BROKER_SERVER}")
@@ -27,7 +28,7 @@ for i in range(10):
             ret, frame = vid.read()
             # cv2.imshow("frame", frame)
 
-            ret, buffer = cv2.imencode(".jpg", frame[::2,::2,0])
+            ret, buffer = cv2.imencode(".jpg", frame[::3,::3])
             producer.send(KAFKA_TOPIC, buffer.tobytes())
             if time.time() - now >= 5:
                 now = time.time()
