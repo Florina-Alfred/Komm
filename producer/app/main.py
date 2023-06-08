@@ -33,7 +33,7 @@ for i in range(10):
             # cv2.imshow("frame", frame)
 
             encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), CV2_ENCODE_SCALE]
-            ret, buffer = cv2.imencode(".jpeg", frame[::CV2_IMAGE_SCALE,::CV2_IMAGE_SCALE], encode_param)
+            ret, buffer = cv2.imencode(".jpg", frame[::CV2_IMAGE_SCALE,::CV2_IMAGE_SCALE], encode_param)
             producer.send(KAFKA_TOPIC, buffer.tobytes())
             if time.time() - now >= 5:
                 now = time.time()
