@@ -15,9 +15,9 @@ BROKER_SERVER = os.getenv("BROKER_SERVER", "localhost:9092")
 KAFKA_TOPIC = os.getenv("KAFKA_TOPIC", "webcam")
 
 
-def gen_frame():
+def gen_frame(local_kafka_topic):
     consumer = KafkaConsumer(
-        KAFKA_TOPIC,
+        local_kafka_topic,
         bootstrap_servers=BROKER_SERVER,
         # bootstrap_servers="kafka-stack.default.svc.cluster.local",
         auto_offset_reset="latest",
@@ -44,8 +44,18 @@ def gen_frame():
 @app.get("/")
 async def root():
     return StreamingResponse(
-        gen_frame(), media_type='multipart/x-mixed-replace; boundary=frame'
+        gen_frame(KAFKA_TOPIC), media_type='multipart/x-mixed-replace; boundary=frame'
     )
+
+@app.get("/{dynamic_frame}")
+async def root(dynamic_frame):
+    return StreamingResponse(
+        gen_frame(dynamic_frame), media_type='multipart/x-mixed-replace; boundary=frame'
+    )
+
+@app.get("/healthy")
+async def root(dynamic_frame):
+    return {"healthy":True, "time": time.time()}
 
 
 if __name__ == "__main__":
