@@ -2,3 +2,4 @@ kafka-python
 opencv-python
 urllib3
 lz4
+prometheus-client

@@ -4,3 +4,4 @@ uvicorn
 numpy
 opencv-python
 urllib3
+prometheus-client

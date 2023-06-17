@@ -4,6 +4,9 @@ import json
 import time
 import os
 import cv2
+from prometheus_client import start_http_server, Info
+
+start_http_server(8001)
 
 # load env variables
 BROKER_SERVER = os.getenv("BROKER_SERVER", "localhost:9092")

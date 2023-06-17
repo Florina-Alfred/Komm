@@ -7,6 +7,7 @@ import os
 import cv2
 import numpy as np
 import time
+from prometheus_client import make_asgi_app
 
 app = FastAPI()
 
@@ -47,16 +48,19 @@ async def root():
         gen_frame(KAFKA_TOPIC), media_type='multipart/x-mixed-replace; boundary=frame'
     )
 
-@app.get("/{dynamic_frame}")
+@app.get("/healthy")
+async def root():
+    return {"healthy":True, "time": time.time()}
+
+
+@app.get("/frame/{dynamic_frame}")
 async def root(dynamic_frame):
     return StreamingResponse(
         gen_frame(dynamic_frame), media_type='multipart/x-mixed-replace; boundary=frame'
     )
 
-@app.get("/healthy")
-async def root(dynamic_frame):
-    return {"healthy":True, "time": time.time()}
-
+metrics_app = make_asgi_app()
+app.mount("/metrics", metrics_app)
 
 if __name__ == "__main__":
     print(f"Starting a K-Con on {KAFKA_TOPIC} @ {BROKER_SERVER}")
